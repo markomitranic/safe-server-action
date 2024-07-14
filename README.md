@@ -1,29 +1,16 @@
-# Create T3 App
+# Safe Server Action
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a [T3 Stack](https://create.t3.gg/) project with an example of using a server action to handle a React Hook Form submission.
 
-## What's next? How do I make an app with this?
+Example enforces the folllwing practices:
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- Explicitly using a `zod` schema to validate the input.
+- Responds with a flattened zod error if validation fails and rerenders the fields as invalid.
+- Calls the action function and responds with the result wrapped in a standardised response envelope.
+- Catches any unexpected throws and responds with a 500 error while logging the actual error details.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+The form is validated using [Zod](https://github.com/colinhacks/zod) both on the client and server.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+When the parsing fails, the input fields are automatically marked as invalid and the form is re-rendered with the errors. Such a system can be fooled by malicious users, so it is important to validate the input on the server as well.
 
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+We can use the same Zod schema on the client and server, so we can rely on the same validation on both sides, and automatically mark the fields as invalid on the client.
