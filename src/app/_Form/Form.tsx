@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { applyErrorsToForm } from "~/lib/applyErrorsToForm";
+import styles from "../index.module.css";
 import { CreateUserDTO } from "./CreateUserDTO";
 import { createUserAction } from "./createUserAction";
 
@@ -26,7 +27,10 @@ export default function Form() {
   });
 
   return (
-    <form onSubmit={form.handleSubmit((data) => mutate(data))}>
+    <form
+      className={styles.form}
+      onSubmit={form.handleSubmit((data) => mutate(data))}
+    >
       <input {...form.register("name")} placeholder="Name" />
       {form.formState.errors.name && (
         <p>{form.formState.errors.name.message}</p>
