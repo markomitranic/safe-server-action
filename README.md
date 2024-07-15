@@ -2,7 +2,9 @@
 
 This is a [T3 Stack](https://create.t3.gg/) project with an example of using a server action to handle a React Hook Form submission.
 
-Example enforces the folllwing practices:
+Read more about the intent behind this example in my blog post [Safe Server Actions](https://medium.com/homullus/safe-r-usage-of-react-server-actions-with-rhf-and-tanstack-query-b1c79d8894a0).
+
+## Example enforces the folllwing practices:
 
 - Explicitly using a `zod` schema to validate the input.
 - Responds with a flattened zod error if validation fails and rerenders the fields as invalid.
