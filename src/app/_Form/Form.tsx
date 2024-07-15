@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { applyErrorsToForm } from "~/lib/applyErrorsToForm";
 import { CreateUserDTO } from "./CreateUserDTO";
@@ -16,14 +17,16 @@ export default function Form() {
     },
   });
 
+  const { mutate } = useMutation({
+    mutationFn: createUserAction,
+    onSuccess: (payload) => {
+      if (!payload.success) return applyErrorsToForm(form, payload.error);
+      console.log("Success!", payload.data); // Handle actual success.
+    },
+  });
+
   return (
-    <form
-      onSubmit={form.handleSubmit(async (data) => {
-        const payload = await createUserAction(data);
-        if (!payload.success) return applyErrorsToForm(form, payload.error);
-        console.log("Success!", payload.data); // Handle actual success.
-      })}
-    >
+    <form onSubmit={form.handleSubmit((data) => mutate(data))}>
       <input {...form.register("name")} placeholder="Name" />
       {form.formState.errors.name && (
         <p>{form.formState.errors.name.message}</p>

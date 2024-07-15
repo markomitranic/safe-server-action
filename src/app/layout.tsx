@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { QueryClientWrapper } from "./QueryClientWrapper";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -14,7 +15,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>{children}</body>
+      <body className={GeistSans.className}>
+        <QueryClientWrapper>{children}</QueryClientWrapper>
+      </body>
     </html>
   );
 }
