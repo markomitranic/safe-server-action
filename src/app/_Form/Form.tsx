@@ -22,6 +22,7 @@ export default function Form() {
     onSuccess: (payload) => {
       if (payload.validationError)
         return applyServerErrors(form, payload.validationError);
+
       console.log("Success!", payload.data); // Handle actual success.
     },
   });

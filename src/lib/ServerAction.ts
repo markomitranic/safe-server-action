@@ -1,5 +1,4 @@
 import { type z } from "zod";
-import { type FlattenedValidationErrors } from "./FlattenedValidationErrors";
 
 /**
  * A factory function for creating server actions.
@@ -19,16 +18,10 @@ export function ServerAction<
   Output
 >(validator: InputZod, action: (input: z.infer<InputZod>) => Promise<Output>) {
   return async (input: z.infer<InputZod>) => {
-    try {
-      // Validate and Sanitize the input.
-      const { error, data: validatedInput } = validator.safeParse(input);
-      if (error)
-        return {
-          validationError: error.flatten() as FlattenedValidationErrors<
-            z.infer<InputZod>
-          >,
-        };
+    // Validate and Sanitize the input.
+    const validatedInput = validator.parse(input);
 
+    try {
       // Process the validated data (e.g., save to database)
       const responseDto = await action(validatedInput);
       // Respond with a success envelope.

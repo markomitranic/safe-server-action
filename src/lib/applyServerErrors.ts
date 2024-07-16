@@ -8,7 +8,7 @@ import { type FlattenedValidationErrors } from "./FlattenedValidationErrors";
  * the reverse order, so that the first field is applied last - and focused.
  *
  * @example
- * if (!payload.success) return applyErrorsToForm(form, payload.error);
+ * if (!payload.success) return applyServerErrors(form, payload.error);
  */
 export function applyServerErrors<F extends Record<string, unknown>>(
   form: UseFormReturn<F>,

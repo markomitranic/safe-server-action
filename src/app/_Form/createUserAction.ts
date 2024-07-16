@@ -1,13 +1,16 @@
 "use server";
 
-import { ServerAction } from "~/lib/ServerAction";
+import { ServerFormAction } from "~/lib/ServerFormAction";
 import { CreateUserDTO } from "./CreateUserDTO";
 
-export const createUserAction = ServerAction(CreateUserDTO, async (data) => {
-  const { name, email } = data;
-  const user = await saveUser(name, email);
-  return { name: user.name, email: user.email };
-});
+export const createUserAction = ServerFormAction(
+  CreateUserDTO,
+  async (data) => {
+    const { name, email } = data;
+    const user = await saveUser(name, email);
+    return { name: user.name, email: user.email };
+  }
+);
 
 async function saveUser(name: string, email: string) {
   // Pretend we're saving the user to a database
