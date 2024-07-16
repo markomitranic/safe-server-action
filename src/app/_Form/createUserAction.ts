@@ -1,9 +1,9 @@
 "use server";
 
-import { action } from "~/lib/action";
+import { ServerAction } from "~/lib/ServerAction";
 import { CreateUserDTO } from "./CreateUserDTO";
 
-export const createUserAction = action(CreateUserDTO, async (data) => {
+export const createUserAction = ServerAction(CreateUserDTO, async (data) => {
   const { name, email } = data;
   const user = await saveUser(name, email);
   return { name: user.name, email: user.email };

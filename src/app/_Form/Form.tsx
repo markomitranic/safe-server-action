@@ -1,16 +1,15 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { applyErrorsToForm } from "~/lib/applyErrorsToForm";
+import { applyServerErrors } from "~/lib/applyServerErrors";
 import styles from "../index.module.css";
-import { CreateUserDTO } from "./CreateUserDTO";
+import { type CreateUserDTO } from "./CreateUserDTO";
 import { createUserAction } from "./createUserAction";
 
 export default function Form() {
   const form = useForm<CreateUserDTO>({
-    resolver: zodResolver(CreateUserDTO), // Remove to use zodResolver only on the server.
+    // resolver: zodResolver(CreateUserDTO), // Remove to use zodResolver only on the server.
     defaultValues: {
       name: "Herman Miller",
       email: "herman@miller.com",
@@ -18,10 +17,11 @@ export default function Form() {
     },
   });
 
-  const { mutate } = useMutation({
+  const { mutate, error } = useMutation({
     mutationFn: createUserAction,
     onSuccess: (payload) => {
-      if (!payload.success) return applyErrorsToForm(form, payload.error);
+      if (payload.validationError)
+        return applyServerErrors(form, payload.validationError);
       console.log("Success!", payload.data); // Handle actual success.
     },
   });
@@ -42,6 +42,7 @@ export default function Form() {
       <input {...form.register("age")} placeholder="Age" />
       {form.formState.errors.age && <p>{form.formState.errors.age.message}</p>}
 
+      {error && <p>Error: {error.message}</p>}
       <button type="submit">Submit</button>
     </form>
   );

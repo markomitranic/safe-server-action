@@ -1,5 +1,5 @@
 import { type Path, type UseFormReturn } from "react-hook-form";
-import { type ErrorActionResponse } from "./action";
+import { type FlattenedValidationErrors } from "./FlattenedValidationErrors";
 
 /**
  * Applies the errors to the given `react-hook-form` instance.
@@ -10,9 +10,9 @@ import { type ErrorActionResponse } from "./action";
  * @example
  * if (!payload.success) return applyErrorsToForm(form, payload.error);
  */
-export function applyErrorsToForm<F extends Record<string, unknown>>(
+export function applyServerErrors<F extends Record<string, unknown>>(
   form: UseFormReturn<F>,
-  errors: ErrorActionResponse<F>["error"]
+  errors: FlattenedValidationErrors<F>
 ): void {
   for (const message of errors.formErrors) {
     form.setError(
